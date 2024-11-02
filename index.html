@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kami App</title>
+  <link rel="icon" href="https://www.commonsense.org/sites/default/files/png/2023-04/kami-logo.png">
+  <style>
+    /* Styling for Cipher Games Menu */
+    #game-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      display: none;
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    #game-menu h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .games-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .game-card {
+      background-color: #222;
+      padding: 15px;
+      border-radius: 10px;
+      width: 150px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .game-card:hover {
+      transform: scale(1.1);
+    }
+
+    .game-card img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .game-card h3 {
+      margin: 10px 0 5px;
+      font-size: 16px;
+      color: #ddd;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Original Website Content -->
+  <div id="main-content">
+    <!-- Insert original content from the Kami App's HTML here -->
+  </div>
+
+  <!-- Cipher Games Menu -->
+  <div id="game-menu">
+    <h2>Game Selection</h2>
+    <div class="games-grid" id="games-grid">
+      <!-- Game Cards will populate here -->
+    </div>
+  </div>
+
+  <!-- SweetAlert and Script Import -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+  <script>
+    // Sample Games Data
+    const games = [
+      {
+        name: "Minecraft",
+        description: "Play Minecraft Unblocked",
+        gameLogourl: "https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w",
+        linkforcloacked: "https://d1tm91r4ytbt54.cloudfront.net/2779cbcb-a02f-48a3-9e2e-95a8d123d165/1685483461665/web/index.html"
+      }
+    ];
+
+    // Display Games Function
+    function displayGames(games) {
+      const gamesGrid = document.getElementById('games-grid');
+      gamesGrid.innerHTML = ''; // Clear grid
+      games.forEach(game => {
+        const gameCard = document.createElement('div');
+        gameCard.classList.add('game-card');
+        gameCard.innerHTML = `
+          <img src="${game.gameLogourl}" alt="${game.name}">
+          <h3>${game.name}</h3>
+        `;
+        gameCard.onclick = () => openGame(game);
+        gamesGrid.appendChild(gameCard);
+      });
+    }
+
+    // Open Game Function
+    function openGame(game) {
+      swal({
+        title: "Open Game",
+        text: `Do you want to open ${game.name} in a cloaked tab or window?`,
+        buttons: {
+          tab: { text: "Cloaked Tab", value: "tab" },
+          window: { text: "Cloaked Window", value: "window" }
+        }
+      })
+      .then((value) => {
+        if (value === "tab") {
+          const tab = window.open("about:blank", "_blank");
+          tab.document.write(`<iframe src="${game.linkforcloacked}" style="border: none; width: 100vw; height: 100vh;"></iframe>`);
+        } else if (value === "window") {
+          const win = window.open("about:blank", "_blank", "width=800,height=600");
+          win.document.write(`<iframe src="${game.linkforcloacked}" style="border: none; width: 100vw; height: 100vh;"></iframe>`);
+        }
+      });
+    }
+
+    // Toggle Game Menu with Backtick Key
+    document.addEventListener('keydown', (event) => {
+      if (event.key === '`') {
+        const gameMenu = document.getElementById('game-menu');
+        const mainContent = document.getElementById('main-content');
+        if (gameMenu.style.display === 'none' || gameMenu.style.display === '') {
+          gameMenu.style.display = 'block';
+          mainContent.style.filter = 'blur(5px)';
+        } else {
+          gameMenu.style.display = 'none';
+          mainContent.style.filter = 'none';
+        }
+      }
+    });
+
+    // Initial Load
+    displayGames(games);
+  </script>
+</body>
+</html>
