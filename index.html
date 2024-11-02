@@ -6,7 +6,14 @@
   <title>Kami App</title>
   <link rel="icon" href="https://www.commonsense.org/sites/default/files/png/2023-04/kami-logo.png">
   <style>
-    /* Styling for Cipher Games Menu */
+    /* Fullscreen iframe for the Kami App */
+    #kami-app {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+    }
+
+    /* Game Menu Overlay */
     #game-menu {
       position: fixed;
       top: 0;
@@ -61,10 +68,8 @@
 </head>
 <body>
 
-  <!-- Original Website Content -->
-  <div id="main-content">
-    <!-- Insert original content from the Kami App's HTML here -->
-  </div>
+  <!-- Kami App Iframe -->
+  <iframe id="kami-app" src="https://www.kamiapp.com/" title="Kami App"></iframe>
 
   <!-- Cipher Games Menu -->
   <div id="game-menu">
@@ -128,13 +133,10 @@
     document.addEventListener('keydown', (event) => {
       if (event.key === '`') {
         const gameMenu = document.getElementById('game-menu');
-        const mainContent = document.getElementById('main-content');
         if (gameMenu.style.display === 'none' || gameMenu.style.display === '') {
           gameMenu.style.display = 'block';
-          mainContent.style.filter = 'blur(5px)';
         } else {
           gameMenu.style.display = 'none';
-          mainContent.style.filter = 'none';
         }
       }
     });
