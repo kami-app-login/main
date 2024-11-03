@@ -103,9 +103,14 @@
         return;
       }
 
+      // Calculate remaining minutes and seconds for display
+      const mins = Math.floor(timeLeft / 60);
+      const secs = timeLeft % 60;
+      const timeRemaining = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
       swal({
         title: `Open ${gameName}`,
-        text: `Do you want to open ${gameName} in a cloaked tab or window?`,
+        text: `You have ${timeRemaining} remaining. Do you want to open ${gameName} in a cloaked tab or window?`,
         buttons: {
           tab: { text: "Cloaked Tab", value: "tab" },
           window: { text: "Cloaked Window", value: "window" }
