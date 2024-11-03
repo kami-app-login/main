@@ -67,12 +67,13 @@
 
   <!-- Games Grid -->
   <div class="games-grid" id="games-grid">
-    <!-- Example Game Cards -->
+    <!-- Minecraft Game Card as an example -->
     <div class="game-card" onclick="openGame('Minecraft', 'https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w', 'https://d1tm91r4ytbt54.cloudfront.net/2779cbcb-a02f-48a3-9e2e-95a8d123d165/1685483461665/web/index.html')">
       <img src="https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w" alt="Minecraft Logo">
       <h3>Minecraft</h3>
       <p>Play Minecraft Unblocked</p>
     </div>
+    <!-- Add more game cards here -->
     <div class="game-card" onclick="openGame('Brawl Stars', 'https://cdn2.steamgriddb.com/icon/9af7ea3259a69623a41b6e8bf98a52b4.png', 'https://www.easyfun.gg/games/brawl-stars.html?start=1')">
       <img src="https://cdn2.steamgriddb.com/icon/9af7ea3259a69623a41b6e8bf98a52b4.png" alt="Brawl Stars Logo">
       <h3>Brawl Stars</h3>
@@ -83,96 +84,23 @@
   <!-- SweetAlert Script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
   <script>
-    // Constants for the timer and daily reset
-    const DAILY_RESET_HOUR = 0; // Reset at 12:00 AM
-    const PLAY_TIME_LIMIT = 30 * 60 * 1000; // 30 minutes in milliseconds
-
-    function resetDailyPlayTimes() {
-      const lastReset = localStorage.getItem("lastReset");
-      const now = new Date();
-      if (!lastReset || new Date(lastReset).getDate() !== now.getDate()) {
-        localStorage.setItem("lastReset", now);
-        localStorage.setItem("playTimes", JSON.stringify({})); // Clear playtimes for all games
-      }
-    }
-
-    function savePlayTime(gameName, timeRemaining) {
-      const playTimes = JSON.parse(localStorage.getItem("playTimes")) || {};
-      playTimes[gameName] = timeRemaining;
-      localStorage.setItem("playTimes", JSON.stringify(playTimes));
-    }
-
-    function getRemainingPlayTime(gameName) {
-      const playTimes = JSON.parse(localStorage.getItem("playTimes")) || {};
-      return playTimes[gameName] !== undefined ? playTimes[gameName] : PLAY_TIME_LIMIT;
-    }
-
+    // Function to Open Game
     function openGame(gameName, gameImage, gameUrl) {
-      resetDailyPlayTimes();
-      const remainingTime = getRemainingPlayTime(gameName);
-
       swal({
-        title: `Open ${gameName}`,
-        text: `Do you want to open ${gameName} in a cloaked tab or window?`,
+        title: Open ${gameName},
+        text: Do you want to open ${gameName} in a cloaked tab or window?,
         buttons: {
           tab: { text: "Cloaked Tab", value: "tab" },
           window: { text: "Cloaked Window", value: "window" }
         }
       })
       .then((value) => {
-        if (value) {
-          const openType = value === "tab" ? "_blank" : "width=800,height=600";
-          const gameWindow = window.open("about:blank", openType);
-          if (gameWindow) {
-            gameWindow.document.write(`
-              <!DOCTYPE html>
-              <html lang="en">
-                <head>
-                  <meta charset="UTF-8">
-                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                  <title>Cipher Games 🔥</title>
-                  <style>
-                    body { display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0; font-family: Arial, sans-serif; }
-                    h1 { font-size: 24px; }
-                    #timer { font-size: 24px; }
-                    #progress-container { width: 80%; height: 10px; background-color: #ddd; margin-top: 10px; }
-                    #progress-bar { height: 100%; background-color: #4caf50; width: 100%; }
-                    iframe { border: none; width: 100vw; height: 90vh; }
-                  </style>
-                </head>
-                <body>
-                  <h1>${gameName}</h1>
-                  <p id="timer">30:00</p>
-                  <div id="progress-container">
-                    <div id="progress-bar"></div>
-                  </div>
-                  <iframe src="${gameUrl}"></iframe>
-                  <script>
-                    const timeLimit = ${remainingTime};
-                    let remainingTime = timeLimit;
-                    const updateFrequency = 1000;
-                    const timerEl = document.getElementById("timer");
-                    const progressBar = document.getElementById("progress-bar");
-
-                    function updateTimer() {
-                      if (remainingTime > 0) {
-                        remainingTime -= updateFrequency;
-                        const minutes = Math.floor(remainingTime / 60000);
-                        const seconds = Math.floor((remainingTime % 60000) / 1000).toString().padStart(2, '0');
-                        timerEl.textContent = minutes + ":" + seconds;
-                        progressBar.style.width = (remainingTime / timeLimit * 100) + "%";
-                        localStorage.setItem("playTimes", JSON.stringify({ "${gameName}": remainingTime }));
-                      } else {
-                        timerEl.textContent = "Time's Up!";
-                        clearInterval(timerInterval);
-                      }
-                    }
-                    const timerInterval = setInterval(updateTimer, updateFrequency);
-                  </script>
-                </body>
-              </html>
-            `);
-          }
+        if (value === "tab") {
+          const tab = window.open("about:blank", "_blank");
+          tab.document.write(<iframe src="${gameUrl}" style="border: none; width: 100vw; height: 100vh;"></iframe>);
+        } else if (value === "window") {
+          const win = window.open("about:blank", "_blank", "width=800,height=600");
+          win.document.write(<iframe src="${gameUrl}" style="border: none; width: 100vw; height: 100vh;"></iframe>);
         }
       });
     }
