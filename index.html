@@ -109,6 +109,69 @@
   <!-- SweetAlert Script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
   <script>
+    // Dev Menu Event Listener
+    document.addEventListener('keydown', function(event) {
+      if (event.key === '`') {
+        showDevMenu();
+      }
+    });
+
+    // Dev Menu Function
+    function showDevMenu() {
+      swal({
+        title: "Dev Menu",
+        text: "Select an action:",
+        buttons: {
+          addTime: {
+            text: "Add Time",
+            value: "add",
+          },
+          removeTime: {
+            text: "Remove Time",
+            value: "remove",
+          },
+          cancel: "Close"
+        }
+      })
+      .then((value) => {
+        if (value === "add" || value === "remove") {
+          swal({
+            title: "Select Game",
+            text: "Enter the game name:",
+            content: "input",
+          })
+          .then(gameName => {
+            if (gameName) {
+              swal({
+                title: "Time Amount",
+                text: "Enter time in minutes:",
+                content: "input",
+                attributes: {
+                  type: "number"
+                }
+              })
+              .then(minutes => {
+                if (minutes) {
+                  const gameKey = `${gameName}-time`;
+                  let currentTime = parseInt(localStorage.getItem(gameKey)) || 0;
+                  const timeChange = parseInt(minutes) * 60;
+                  
+                  if (value === "add") {
+                    currentTime += timeChange;
+                  } else {
+                    currentTime = Math.max(0, currentTime - timeChange);
+                  }
+                  
+                  localStorage.setItem(gameKey, currentTime);
+                  swal("Success", `${value === "add" ? "Added" : "Removed"} ${minutes} minutes ${value === "add" ? "to" : "from"} ${gameName}`, "success");
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+
     // Function to Open Game
     function openGame(gameName, gameImage, gameUrl) {
       const today = new Date().toISOString().split('T')[0];
