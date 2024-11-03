@@ -109,7 +109,6 @@
   <!-- Games Grid -->
   <div class="games-grid" id="games-grid">
     <!-- Game Cards Here -->
-    <!-- Minecraft Game Card as an example -->
     <div class="game-card" onclick="openGame('Minecraft', 'https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w', 'https://d1tm91r4ytbt54.cloudfront.net/2779cbcb-a02f-48a3-9e2e-95a8d123d165/1685483461665/web/index.html')">
       <img src="https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w" alt="Minecraft Logo">
       <h3>Minecraft</h3>
@@ -143,6 +142,13 @@
     </div>
   </div>
 
+  <!-- Developer Menu -->
+  <div class="dev-menu" id="dev-menu">
+    <h2>Developer Menu</h2>
+    <p>Debugging options and settings go here.</p>
+    <button onclick="closeDevMenu()">Close Menu</button>
+  </div>
+
   <!-- SweetAlert Script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
   <script>
@@ -159,98 +165,71 @@
     }
     updateGemDisplay();
 
-    // Function to Open Game
+    // Function to Open Game in about:blank
     function openGame(gameName, gameIcon, gameUrl) {
-      const gameTimeKey = gameName.replace(/\s+/g, '') + 'Time';
-      let gameTime = localStorage.getItem(gameTimeKey) || 30; // Default to 30 minutes
-
-      if (gameTime > 0) {
-        const newTab = window.open(gameUrl, '_blank');
-        newTab.document.title = gameName + ' - Cipher Games 🔥';
-        newTab.onbeforeunload = function () {
-          // Subtract time when game is closed
-          let remainingTime = localStorage.getItem(gameTimeKey);
-          if (remainingTime) {
-            localStorage.setItem(gameTimeKey, remainingTime - 1);
+      const newTab = window.open('about:blank', '_blank');
+      newTab.document.title = gameName;
+      newTab.document.body.innerHTML = `
+        <style>
+          body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
           }
-        };
-        startTimer(gameName);
-      } else {
-        alert('Time is up for ' + gameName + '. Please purchase more time with gems!');
-      }
+          #timer {
+            font-size: 24px;
+            margin-bottom: 20px;
+          }
+        </style>
+        <div id="timer">30:00</div>
+        <iframe src="${gameUrl}" style="border:none; width:100%; height:100%;"></iframe>
+      `;
+
+      startTimer(newTab);
     }
 
-    // Start Timer
-    function startTimer(gameName) {
-      const timerInterval = setInterval(() => {
-        let gameTimeKey = gameName.replace(/\s+/g, '') + 'Time';
-        let timeRemaining = localStorage.getItem(gameTimeKey);
-        
-        if (timeRemaining > 0) {
-          localStorage.setItem(gameTimeKey, timeRemaining - 1);
+    // Timer Function
+    function startTimer(tab) {
+      let timeRemaining = 30 * 60; // 30 minutes in seconds
+      const timerDisplay = tab.document.getElementById('timer');
+
+      const interval = setInterval(() => {
+        if (timeRemaining <= 0) {
+          clearInterval(interval);
+          alert('Time is up!');
+          tab.close(); // Close the tab when the timer ends
         } else {
-          clearInterval(timerInterval);
-          alert('Time is up for ' + gameName);
+          timeRemaining--;
+          const minutes = Math.floor(timeRemaining / 60);
+          const seconds = timeRemaining % 60;
+          timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+          localStorage.setItem('timerRemaining', timeRemaining); // Store remaining time
         }
-      }, 60000); // Update every minute
-    }
+      }, 1000);
 
-    // Purchase Extra Time
-    function purchaseExtraTime() {
-      const gems = parseInt(localStorage.getItem(gemCountKey));
-      if (gems >= 5) { // Cost for extra time
-        const gameName = prompt("Enter the game name for which you want to purchase extra time:");
-        if (gameName) {
-          let gameTimeKey = gameName.replace(/\s+/g, '') + 'Time';
-          let currentTime = localStorage.getItem(gameTimeKey) || 0;
-          localStorage.setItem(gameTimeKey, parseInt(currentTime) + 5); // Add 5 more minutes
-          localStorage.setItem(gemCountKey, gems - 5); // Deduct gems
-          updateGemDisplay();
-          alert("Purchased 5 extra minutes for " + gameName + "!");
-        }
-      } else {
-        alert("Not enough gems to purchase extra time.");
+      // Load remaining time on tab open
+      const savedTime = localStorage.getItem('timerRemaining');
+      if (savedTime) {
+        timeRemaining = parseInt(savedTime);
       }
     }
 
-    // Developer Menu
-    function toggleDevMenu() {
-      const devMenu = document.getElementById('dev-menu');
-      devMenu.style.display = devMenu.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // Key Listener for Developer Menu
-    document.addEventListener('keydown', function(event) {
-      if (event.key === '`') { // Backtick key
-        toggleDevMenu();
+    // Event Listener for Developer Menu
+    document.addEventListener('keydown', (event) => {
+      if (event.key === '`') { // Open the dev menu with backtick key
+        const devMenu = document.getElementById('dev-menu');
+        devMenu.style.display = devMenu.style.display === 'block' ? 'none' : 'block';
       }
     });
 
-    // Dev Menu Functionality
-    function addGems(amount) {
-      const currentGems = parseInt(localStorage.getItem(gemCountKey));
-      localStorage.setItem(gemCountKey, currentGems + amount);
-      updateGemDisplay();
+    // Close Developer Menu
+    function closeDevMenu() {
+      document.getElementById('dev-menu').style.display = 'none';
     }
-
-    function resetGameTime() {
-      const gameNames = ['Minecraft', 'Brawl Stars', 'Drive Mad', 'Smash Karts', 'Highway Racer', 'Parkour Race'];
-      gameNames.forEach(name => {
-        localStorage.setItem(name.replace(/\s+/g, '') + 'Time', 30); // Reset to 30 minutes
-      });
-      alert('All game times have been reset to 30 minutes.');
-    }
-
   </script>
-
-  <!-- Developer Menu HTML -->
-  <div class="dev-menu" id="dev-menu">
-    <h3>Developer Menu</h3>
-    <button onclick="addGems(10)">Add 10 Gems</button>
-    <button onclick="resetGameTime()">Reset Game Times</button>
-    <button onclick="purchaseExtraTime()">Purchase Extra Time</button>
-    <button onclick="toggleDevMenu()">Close Menu</button>
-  </div>
-
 </body>
 </html>
