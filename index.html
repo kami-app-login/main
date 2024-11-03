@@ -156,7 +156,9 @@
                   <button class="hide-btn" onclick="toggleBar()">Hide</button>
                 </div>
                 <script>
-                  let seconds = 0;
+                  // Retrieve saved time from localStorage or initialize to 0
+                  const savedSeconds = parseInt(localStorage.getItem('${gameName}-time')) || 0;
+                  let seconds = savedSeconds;
                   const timerDisplay = document.getElementById('timer');
                   
                   // Timer to track the time spent on the game
@@ -165,6 +167,9 @@
                     const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
                     const secs = String(seconds % 60).padStart(2, '0');
                     timerDisplay.textContent = \`\${mins}:\${secs}\`;
+
+                    // Save the time spent in localStorage every second
+                    localStorage.setItem('${gameName}-time', seconds);
                   }, 1000);
 
                   // Toggle the visibility of the bottom bar
