@@ -92,13 +92,11 @@
 
   <!-- Games Grid -->
   <div class="games-grid" id="games-grid">
-    <!-- Minecraft Game Card as an example -->
     <div class="game-card" onclick="openGame('Minecraft', 'https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w', 'https://d1tm91r4ytbt54.cloudfront.net/2779cbcb-a02f-48a3-9e2e-95a8d123d165/1685483461665/web/index.html')">
       <img src="https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w" alt="Minecraft Logo">
       <h3>Minecraft</h3>
       <p>Play Minecraft Unblocked</p>
     </div>
-    <!-- Add more game cards here -->
     <div class="game-card" onclick="openGame('Brawl Stars', 'https://cdn2.steamgriddb.com/icon/9af7ea3259a69623a41b6e8bf98a52b4.png', 'https://www.easyfun.gg/games/brawl-stars.html?start=1')">
       <img src="https://cdn2.steamgriddb.com/icon/9af7ea3259a69623a41b6e8bf98a52b4.png" alt="Brawl Stars Logo">
       <h3>Brawl Stars</h3>
@@ -152,7 +150,7 @@
 
       // Reset time if date has changed
       if (localStorage.getItem(`${gameKey}-date`) !== today) {
-        localStorage.setItem(gameKey, 1800); // 30 minutes
+        localStorage.setItem(gameKey, 1800); // 30 minutes in seconds
         localStorage.setItem(`${gameKey}-date`, today);
       }
 
@@ -177,20 +175,21 @@
               localStorage.setItem('gems', gems - 10); // Deduct gems
               localStorage.setItem(gameKey, 1800); // Add 30 minutes
               updateGemsDisplay(); // Update display
-              openGame(gameName, gameImage, gameUrl); // Reopen the game
+              window.open(gameUrl); // Open game URL
+              startTimer(gameKey);
             }
           });
         } else {
           alert("You do not have enough gems to purchase more time.");
           return;
         }
+      } else {
+        // If there's time left, open the game
+        localStorage.setItem(gameKey, remainingTime - 1); // Decrement time
+        updateGemsDisplay(); // Update gems display
+        window.open(gameUrl); // Open game URL
+        startTimer(gameKey);
       }
-
-      // If there's time left, open the game
-      localStorage.setItem(gameKey, remainingTime - 1); // Decrement time
-      updateGemsDisplay(); // Update gems display
-      window.open(gameUrl); // Open game URL
-      startTimer(gameKey);
     }
 
     // Timer function
