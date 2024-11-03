@@ -95,12 +95,87 @@
         }
       })
       .then((value) => {
-        if (value === "tab") {
-          const tab = window.open("about:blank", "_blank");
-          tab.document.write(`<iframe src="${gameUrl}" style="border: none; width: 100vw; height: 100vh;"></iframe>`);
-        } else if (value === "window") {
-          const win = window.open("about:blank", "_blank", "width=800,height=600");
-          win.document.write(`<iframe src="${gameUrl}" style="border: none; width: 100vw; height: 100vh;"></iframe>`);
+        if (value === "tab" || value === "window") {
+          const gameWindow = window.open("about:blank", "_blank", value === "window" ? "width=800,height=600" : "");
+          
+          // Write the game iframe and control bar HTML to the new tab/window
+          gameWindow.document.write(`
+            <html>
+              <head>
+                <title>${gameName} - Cipher Games 🔥</title>
+                <style>
+                  body, html {
+                    margin: 0;
+                    padding: 0;
+                    overflow: hidden;
+                  }
+                  iframe {
+                    border: none;
+                    width: 100vw;
+                    height: calc(100vh - 40px);
+                  }
+                  .bottom-bar {
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 40px;
+                    background: linear-gradient(90deg, #1e3c72, #2a5298);
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 0 15px;
+                    font-family: Arial, sans-serif;
+                    font-size: 14px;
+                    font-weight: bold;
+                  }
+                  .timer {
+                    display: flex;
+                    align-items: center;
+                  }
+                  .hide-btn {
+                    background-color: #333;
+                    color: #fff;
+                    padding: 5px 10px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: background-color 0.2s ease;
+                  }
+                  .hide-btn:hover {
+                    background-color: #555;
+                  }
+                </style>
+              </head>
+              <body>
+                <iframe src="${gameUrl}"></iframe>
+                <div class="bottom-bar" id="bottom-bar">
+                  <div>Cipher Games 🔥</div>
+                  <div class="timer">Time Spent: <span id="timer">00:00</span></div>
+                  <button class="hide-btn" onclick="toggleBar()">Hide</button>
+                </div>
+                <script>
+                  let seconds = 0;
+                  const timerDisplay = document.getElementById('timer');
+                  
+                  // Timer to track the time spent on the game
+                  setInterval(() => {
+                    seconds++;
+                    const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
+                    const secs = String(seconds % 60).padStart(2, '0');
+                    timerDisplay.textContent = \`\${mins}:\${secs}\`;
+                  }, 1000);
+
+                  // Toggle the visibility of the bottom bar
+                  function toggleBar() {
+                    const bottomBar = document.getElementById('bottom-bar');
+                    bottomBar.style.display = bottomBar.style.display === 'none' ? 'flex' : 'none';
+                  }
+                </script>
+              </body>
+            </html>
+          `);
         }
       });
     }
