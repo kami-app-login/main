@@ -159,13 +159,30 @@
 
     // Developer Menu Function
     function showDeveloperMenu() {
+      // Create a dropdown for selecting the game
+      const gameSelect = document.createElement('select');
+      const gameCards = document.querySelectorAll('.game-card');
+
+      gameCards.forEach(card => {
+        const gameName = card.querySelector('h3').innerText;
+        const option = document.createElement('option');
+        option.value = gameName;
+        option.innerText = gameName;
+        gameSelect.appendChild(option);
+      });
+
+      // SweetAlert modal for developer menu
       swal({
         title: "Developer Menu",
         content: {
-          element: "input",
+          element: "div",
           attributes: {
-            placeholder: "Enter extra time in minutes",
-            type: "number"
+            innerHTML: `
+              <label for="gameSelect">Select a Game:</label>
+              ${gameSelect.outerHTML}
+              <br>
+              <input type="number" id="extraTime" placeholder="Enter extra time in minutes" style="margin-top: 10px; width: 100%;">
+            `,
           },
         },
         buttons: {
@@ -174,17 +191,13 @@
         },
       }).then((value) => {
         if (value) {
-          const extraTime = parseInt(value, 10);
+          const selectedGame = gameSelect.value;
+          const extraTime = parseInt(document.getElementById('extraTime').value, 10);
           if (!isNaN(extraTime)) {
-            // Loop through all game cards and add extra time
-            const gameCards = document.querySelectorAll('.game-card');
-            gameCards.forEach(card => {
-              const gameName = card.querySelector('h3').innerText;
-              const gameKey = `${gameName}-time`;
-              let currentTime = parseInt(localStorage.getItem(gameKey), 10) || 0;
-              localStorage.setItem(gameKey, currentTime + extraTime * 60);
-            });
-            swal("Success!", `Added ${extraTime} minutes to each game.`, "success");
+            const gameKey = `${selectedGame}-time`;
+            let currentTime = parseInt(localStorage.getItem(gameKey), 10) || 0;
+            localStorage.setItem(gameKey, currentTime + extraTime * 60);
+            swal("Success!", `Added ${extraTime} minutes to ${selectedGame}.`, "success");
           } else {
             swal("Error!", "Please enter a valid number.", "error");
           }
