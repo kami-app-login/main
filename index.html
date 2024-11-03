@@ -58,6 +58,34 @@
       font-size: 18px;
       color: #ddd;
     }
+
+    /* Developer Menu */
+    .developer-menu {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #444;
+      color: white;
+      border-radius: 10px;
+    }
+
+    .developer-menu input, .developer-menu select {
+      margin: 5px;
+      padding: 5px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    .developer-menu button {
+      padding: 10px 20px;
+      background-color: #ffcc00;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .developer-menu button:hover {
+      background-color: #e6b800;
+    }
   </style>
 </head>
 <body>
@@ -67,13 +95,11 @@
 
   <!-- Games Grid -->
   <div class="games-grid" id="games-grid">
-    <!-- Minecraft Game Card as an example -->
     <div class="game-card" onclick="openGame('Minecraft', 'https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w', 'https://d1tm91r4ytbt54.cloudfront.net/2779cbcb-a02f-48a3-9e2e-95a8d123d165/1685483461665/web/index.html')">
       <img src="https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w" alt="Minecraft Logo">
       <h3>Minecraft</h3>
       <p>Play Minecraft Unblocked</p>
     </div>
-    <!-- Add more game cards here -->
     <div class="game-card" onclick="openGame('Brawl Stars', 'https://cdn2.steamgriddb.com/icon/9af7ea3259a69623a41b6e8bf98a52b4.png', 'https://www.easyfun.gg/games/brawl-stars.html?start=1')">
       <img src="https://cdn2.steamgriddb.com/icon/9af7ea3259a69623a41b6e8bf98a52b4.png" alt="Brawl Stars Logo">
       <h3>Brawl Stars</h3>
@@ -106,111 +132,93 @@
       </div>
   </div>
 
+  <!-- Developer Menu -->
+  <div class="developer-menu">
+    <h2>Developer Menu</h2>
+    <select id="game-selector">
+      <option value="Minecraft">Minecraft</option>
+      <option value="Brawl Stars">Brawl Stars</option>
+      <option value="Drive Mad">Drive Mad</option>
+      <option value="Smash Karts">Smash Karts</option>
+      <option value="Highway Racer">Highway Racer</option>
+      <option value="Parkour Race">Parkour Race</option>
+      <option value="Tunnel Rush">Tunnel Rush</option>
+    </select>
+    <input type="number" id="time-input" placeholder="Minutes" min="1">
+    <div>
+      <input type="radio" name="time-action" value="add" checked> Add Time
+      <input type="radio" name="time-action" value="subtract"> Subtract Time
+    </div>
+    <button onclick="adjustGameTime()">Update Game Time</button>
+  </div>
+
   <!-- SweetAlert Script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
   <script>
     // Function to Open Game
-    function openGame(gameName, gameImage, gameUrl) {
-      const today = new Date().toISOString().split('T')[0];
-      const gameKey = `${gameName}-time`;
-
-      // Reset time if date has changed
-      if (localStorage.getItem("lastPlayDate") !== today) {
-        localStorage.setItem("lastPlayDate", today);
-        localStorage.setItem(gameKey, 30 * 60); // Reset to 30 minutes in seconds
+    function openGame(gameName, imgURL, gameURL) {
+      let token = localStorage.getItem(gameName);
+      if (!token) {
+        token = {
+          time: 1800, // 30 minutes in seconds
+          lastPlayed: Date.now()
+        };
+        localStorage.setItem(gameName, JSON.stringify(token));
       }
+      window.open(gameURL, '_blank');
+      startTimer(gameName);
+    }
 
-      let timeLeft = parseInt(localStorage.getItem(gameKey), 10);
-      if (isNaN(timeLeft) || timeLeft < 0) {
-        timeLeft = 30 * 60; // Set to 30 minutes if time is NaN
-      }
+    // Function to Start Timer
+    function startTimer(gameName) {
+      const token = JSON.parse(localStorage.getItem(gameName));
+      if (!token) return;
 
-      // Prevent game from opening if time is up
-      if (timeLeft <= 0) {
-        swal("Time's Up", `You've used up your 30 minutes for ${gameName} today.`, "warning");
+      let timeRemaining = token.time;
+
+      const timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay(gameName, timeRemaining);
+
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          swal("Time's Up!", `You have finished your game of ${gameName}.`, "success");
+          localStorage.removeItem(gameName); // Remove game token when time is up
+        }
+      }, 1000);
+    }
+
+    // Function to Update Timer Display
+    function updateTimerDisplay(gameName, timeRemaining) {
+      const minutes = Math.floor(timeRemaining / 60);
+      const seconds = timeRemaining % 60;
+      document.title = `${gameName} - ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }
+
+    // Function to Adjust Game Time
+    function adjustGameTime() {
+      const gameName = document.getElementById('game-selector').value;
+      const timeInput = parseInt(document.getElementById('time-input').value);
+      const action = document.querySelector('input[name="time-action"]:checked').value;
+
+      if (isNaN(timeInput) || timeInput <= 0) {
+        swal("Error!", "Please enter a valid number of minutes.", "error");
         return;
       }
 
-      // Calculate remaining minutes and seconds for display
-      const mins = Math.floor(timeLeft / 60);
-      const secs = timeLeft % 60;
-      const timeRemaining = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      const token = JSON.parse(localStorage.getItem(gameName));
 
-      swal({
-        title: `Open ${gameName}`,
-        text: `You have ${timeRemaining} remaining. Do you want to open ${gameName} in a cloaked tab or window?`,
-        buttons: {
-          tab: { text: "Cloaked Tab", value: "tab" },
-          window: { text: "Cloaked Window", value: "window" },
-          cancel: "Cancel"
-        },
-      }).then((value) => {
-        if (value) {
-          if (value === "tab") {
-            window.open(gameUrl, "_blank");
-          } else if (value === "window") {
-            window.open(gameUrl, "_blank", "width=800,height=600");
-          }
-          // Reduce time left
-          localStorage.setItem(gameKey, timeLeft - 1); // Decrease time left by 1 minute
-        }
-      });
-    }
-
-    // Developer Menu Function
-    function showDeveloperMenu() {
-      // Create a dropdown for selecting the game
-      const gameSelect = document.createElement('select');
-      const gameCards = document.querySelectorAll('.game-card');
-
-      gameCards.forEach(card => {
-        const gameName = card.querySelector('h3').innerText;
-        const option = document.createElement('option');
-        option.value = gameName;
-        option.innerText = gameName;
-        gameSelect.appendChild(option);
-      });
-
-      // SweetAlert modal for developer menu
-      swal({
-        title: "Developer Menu",
-        content: {
-          element: "div",
-          attributes: {
-            innerHTML: `
-              <label for="gameSelect">Select a Game:</label>
-              ${gameSelect.outerHTML}
-              <br>
-              <input type="number" id="extraTime" placeholder="Enter extra time in minutes" style="margin-top: 10px; width: 100%;">
-            `,
-          },
-        },
-        buttons: {
-          cancel: "Cancel",
-          confirm: "Add Time",
-        },
-      }).then((value) => {
-        if (value) {
-          const selectedGame = gameSelect.value;
-          const extraTime = parseInt(document.getElementById('extraTime').value, 10);
-          if (!isNaN(extraTime)) {
-            const gameKey = `${selectedGame}-time`;
-            let currentTime = parseInt(localStorage.getItem(gameKey), 10) || 0;
-            localStorage.setItem(gameKey, currentTime + extraTime * 60);
-            swal("Success!", `Added ${extraTime} minutes to ${selectedGame}.`, "success");
-          } else {
-            swal("Error!", "Please enter a valid number.", "error");
-          }
-        }
-      });
-    }
-
-    // Event Listener for Backtick Key
-    document.addEventListener('keydown', (event) => {
-      if (event.key === '`') {
-        showDeveloperMenu();
+      if (!token) {
+        swal("Error!", `No game data found for ${gameName}.`, "error");
+        return;
       }
-    });
+
+      const adjustment = action === 'add' ? timeInput * 60 : -timeInput * 60;
+      token.time = Math.max(0, token.time + adjustment); // Ensure time doesn't go negative
+      localStorage.setItem(gameName, JSON.stringify(token));
+
+      swal("Success!", `${action === 'add' ? 'Added' : 'Subtracted'} ${timeInput} minutes to ${gameName}. New time: ${Math.floor(token.time / 60)} minutes`, "success");
+    }
   </script>
 </body>
 </html>
