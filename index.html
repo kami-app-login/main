@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kami App</title>
+  <title>Kami App - Games</title>
   <link rel="icon" href="https://www.commonsense.org/sites/default/files/png/2023-04/kami-logo.png">
   <style>
     /* Basic Page Styling */
@@ -23,7 +23,6 @@
       color: #333;
     }
 
-    /* Game Grid */
     .games-grid {
       display: flex;
       flex-wrap: wrap;
@@ -32,7 +31,6 @@
       margin-top: 20px;
     }
 
-    /* Game Card */
     .game-card {
       background-color: #333;
       color: white;
@@ -48,154 +46,102 @@
       transform: scale(1.1);
     }
 
-    .game-card img {
-      width: 100%;
+    /* Hidden Developer Menu */
+    #dev-menu {
+      display: none;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translate(-50%, -20%);
+      background: #333;
+      padding: 20px;
       border-radius: 10px;
-    }
-
-    .game-card h3 {
-      margin: 10px 0;
-      font-size: 18px;
-      color: #ddd;
-    }
-
-    /* Developer Menu */
-    .developer-menu {
-      margin-top: 20px;
-      padding: 10px;
-      background-color: #444;
       color: white;
-      border-radius: 10px;
+      text-align: left;
+      width: 300px;
     }
 
-    .developer-menu input, .developer-menu select {
-      margin: 5px;
-      padding: 5px;
-      border-radius: 5px;
-      border: none;
-    }
-
-    .developer-menu button {
-      padding: 10px 20px;
-      background-color: #ffcc00;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .developer-menu button:hover {
-      background-color: #e6b800;
+    #dev-menu label, #dev-menu select, #dev-menu input, #dev-menu button {
+      display: block;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-
-  <!-- Header -->
   <h1>Kami App - Games</h1>
-
-  <!-- Games Grid -->
   <div class="games-grid" id="games-grid">
     <div class="game-card" onclick="openGame('Minecraft', 'https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w', 'https://d1tm91r4ytbt54.cloudfront.net/2779cbcb-a02f-48a3-9e2e-95a8d123d165/1685483461665/web/index.html')">
       <img src="https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w" alt="Minecraft Logo">
       <h3>Minecraft</h3>
       <p>Play Minecraft Unblocked</p>
     </div>
-    <div class="game-card" onclick="openGame('Brawl Stars', 'https://cdn2.steamgriddb.com/icon/9af7ea3259a69623a41b6e8bf98a52b4.png', 'https://www.easyfun.gg/games/brawl-stars.html?start=1')">
-      <img src="https://cdn2.steamgriddb.com/icon/9af7ea3259a69623a41b6e8bf98a52b4.png" alt="Brawl Stars Logo">
-      <h3>Brawl Stars</h3>
-      <p>Play Brawl Stars PC Unblocked</p>
-    </div>
-    <div class="game-card" onclick="openGame('Drive Mad', 'https://play-lh.googleusercontent.com/zGApa4C91zfSXuPMVHvBzzgVLhs_ABHv9fybDQ2m86QmArR3sejpOoRjBMq4ZNZrhg', 'https://ubg77.github.io/game131022/drive-mad/')">
-        <img src="https://play-lh.googleusercontent.com/zGApa4C91zfSXuPMVHvBzzgVLhs_ABHv9fybDQ2m86QmArR3sejpOoRjBMq4ZNZrhg" alt="Drive Mad Logo">
-        <h3>Drive Mad</h3>
-        <p>Play Drive Mad Unblocked</p>
-      </div>
-      <div class="game-card" onclick="openGame('Smash Karts', 'https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/e35c84cf1672e2ee6b17165a5d5cb916.png', 'https://webglmath.github.io/smash-karts/')">
-        <img src="https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/e35c84cf1672e2ee6b17165a5d5cb916.png" alt="Smash Karts logo">
-        <h3>Smash Karts</h3>
-        <p>Play Smash Karts Unblocked</p>
-      </div>
-      <div class="game-card" onclick="openGame('Highway Racer', 'https://gameforge.com/de-DE/littlegames/includes/images/games/8471_5eb3edcc0ba33.jpg', 'https://ubg77.github.io/edit/highway-racer-3d/')">
-        <img src="https://gameforge.com/de-DE/littlegames/includes/images/games/8471_5eb3edcc0ba33.jpg" alt="Highway Racer logo">
-        <h3>Highway Racer</h3>
-        <p>Play Highway Racer Unblocked</p>
-      </div>
-      <div class="game-card" onclick="openGame('Parkour Race', 'https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/a151c8ec0e7758c6fa0ef06ff540e911.jpeg', 'https://ubg77.github.io/fix/parkour-race/')">
-        <img src="https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/a151c8ec0e7758c6fa0ef06ff540e911.jpeg" alt="Parkour Race logo">
-        <h3>Parkour Race</h3>
-        <p>Play Parkour Race Unblocked</p>
-      </div>
-      <div class="game-card" onclick="openGame('Tunnel Rush', 'https://images.hellokids.com/_uploads/_tiny_galerie/20180415/vign-tunnel-rush-hk-w8v_u89.jpg', 'https://webglmath.github.io/tunnel-rush/')">
-        <img src="https://images.hellokids.com/_uploads/_tiny_galerie/20180415/vign-tunnel-rush-hk-w8v_u89.jpg" alt="Tunnel Rush logo">
-        <h3>Tunnel Rush</h3>
-        <p>Play Tunnel Rush Unblocked</p>
-      </div>
+    <!-- More game cards here -->
   </div>
 
-  <!-- Developer Menu -->
-  <div class="developer-menu">
+  <!-- Hidden Developer Menu -->
+  <div id="dev-menu">
     <h2>Developer Menu</h2>
+    <label for="game-selector">Select Game:</label>
     <select id="game-selector">
       <option value="Minecraft">Minecraft</option>
       <option value="Brawl Stars">Brawl Stars</option>
-      <option value="Drive Mad">Drive Mad</option>
-      <option value="Smash Karts">Smash Karts</option>
-      <option value="Highway Racer">Highway Racer</option>
-      <option value="Parkour Race">Parkour Race</option>
-      <option value="Tunnel Rush">Tunnel Rush</option>
+      <!-- Add other games here as needed -->
     </select>
-    <input type="number" id="time-input" placeholder="Minutes" min="1">
+
+    <label for="time-input">Time (minutes):</label>
+    <input type="number" id="time-input" placeholder="Enter time in minutes">
+
     <div>
-      <input type="radio" name="time-action" value="add" checked> Add Time
-      <input type="radio" name="time-action" value="subtract"> Subtract Time
+      <input type="radio" id="add-time" name="time-action" value="add" checked>
+      <label for="add-time">Add Time</label>
+      <input type="radio" id="subtract-time" name="time-action" value="subtract">
+      <label for="subtract-time">Subtract Time</label>
     </div>
-    <button onclick="adjustGameTime()">Update Game Time</button>
+
+    <button onclick="adjustGameTime()">Adjust Time</button>
   </div>
 
-  <!-- SweetAlert Script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
   <script>
-    // Function to Open Game
+    document.addEventListener('keydown', (event) => {
+      if (event.key === '`') {
+        const devMenu = document.getElementById('dev-menu');
+        devMenu.style.display = devMenu.style.display === 'none' ? 'block' : 'none';
+      }
+    });
+
     function openGame(gameName, imgURL, gameURL) {
       let token = localStorage.getItem(gameName);
       if (!token) {
-        token = {
-          time: 1800, // 30 minutes in seconds
-          lastPlayed: Date.now()
-        };
+        token = { time: 1800, lastPlayed: Date.now() }; // 30 minutes
         localStorage.setItem(gameName, JSON.stringify(token));
       }
       window.open(gameURL, '_blank');
       startTimer(gameName);
     }
 
-    // Function to Start Timer
     function startTimer(gameName) {
       const token = JSON.parse(localStorage.getItem(gameName));
       if (!token) return;
 
       let timeRemaining = token.time;
-
       const timerInterval = setInterval(() => {
         timeRemaining--;
         updateTimerDisplay(gameName, timeRemaining);
-
         if (timeRemaining <= 0) {
           clearInterval(timerInterval);
           swal("Time's Up!", `You have finished your game of ${gameName}.`, "success");
-          localStorage.removeItem(gameName); // Remove game token when time is up
+          localStorage.removeItem(gameName);
         }
       }, 1000);
     }
 
-    // Function to Update Timer Display
     function updateTimerDisplay(gameName, timeRemaining) {
       const minutes = Math.floor(timeRemaining / 60);
       const seconds = timeRemaining % 60;
       document.title = `${gameName} - ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     }
 
-    // Function to Adjust Game Time
     function adjustGameTime() {
       const gameName = document.getElementById('game-selector').value;
       const timeInput = parseInt(document.getElementById('time-input').value);
@@ -207,17 +153,16 @@
       }
 
       const token = JSON.parse(localStorage.getItem(gameName));
-
       if (!token) {
         swal("Error!", `No game data found for ${gameName}.`, "error");
         return;
       }
 
       const adjustment = action === 'add' ? timeInput * 60 : -timeInput * 60;
-      token.time = Math.max(0, token.time + adjustment); // Ensure time doesn't go negative
+      token.time = Math.max(0, token.time + adjustment);
       localStorage.setItem(gameName, JSON.stringify(token));
 
-      swal("Success!", `${action === 'add' ? 'Added' : 'Subtracted'} ${timeInput} minutes to ${gameName}. New time: ${Math.floor(token.time / 60)} minutes`, "success");
+      swal("Success!", `${action === 'add' ? 'Added' : 'Subtracted'} ${timeInput} minutes for ${gameName}. New time: ${Math.floor(token.time / 60)} minutes`, "success");
     }
   </script>
 </body>
