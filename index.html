@@ -87,8 +87,8 @@
     // Function to Open Game
     function openGame(gameName, gameImage, gameUrl) {
       swal({
-        title: Open ${gameName},
-        text: Do you want to open ${gameName} in a cloaked tab or window?,
+        title: `Open ${gameName}`,
+        text: `Do you want to open ${gameName} in a cloaked tab or window?`,
         buttons: {
           tab: { text: "Cloaked Tab", value: "tab" },
           window: { text: "Cloaked Window", value: "window" }
@@ -97,10 +97,10 @@
       .then((value) => {
         if (value === "tab") {
           const tab = window.open("about:blank", "_blank");
-          tab.document.write(<iframe src="${gameUrl}" style="border: none; width: 100vw; height: 100vh;"></iframe>);
+          tab.document.write(`<iframe src="${gameUrl}" style="border: none; width: 100vw; height: 100vh;"></iframe>`);
         } else if (value === "window") {
           const win = window.open("about:blank", "_blank", "width=800,height=600");
-          win.document.write(<iframe src="${gameUrl}" style="border: none; width: 100vw; height: 100vh;"></iframe>);
+          win.document.write(`<iframe src="${gameUrl}" style="border: none; width: 100vw; height: 100vh;"></iframe>`);
         }
       });
     }
