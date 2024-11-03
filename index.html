@@ -86,6 +86,23 @@
   <script>
     // Function to Open Game
     function openGame(gameName, gameImage, gameUrl) {
+      const today = new Date().toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
+      const gameKey = `${gameName}-time`;
+
+      // Reset time if date has changed
+      if (localStorage.getItem("lastPlayDate") !== today) {
+        localStorage.setItem("lastPlayDate", today);
+        localStorage.setItem(gameKey, 30 * 60); // Reset to 30 minutes in seconds
+      }
+
+      let timeLeft = parseInt(localStorage.getItem(gameKey), 10);
+
+      // Prevent game from opening if time is up
+      if (timeLeft <= 0) {
+        swal("Time's Up", `You've used up your 30 minutes for ${gameName} today.`, "warning");
+        return;
+      }
+
       swal({
         title: `Open ${gameName}`,
         text: `Do you want to open ${gameName} in a cloaked tab or window?`,
@@ -97,7 +114,7 @@
       .then((value) => {
         if (value === "tab" || value === "window") {
           const gameWindow = window.open("about:blank", "_blank", value === "window" ? "width=800,height=600" : "");
-          
+
           // Write the game iframe and control bar HTML to the new tab/window
           gameWindow.document.write(`
             <html>
@@ -112,14 +129,14 @@
                   iframe {
                     border: none;
                     width: 100vw;
-                    height: calc(100vh - 40px);
+                    height: calc(100vh - 50px);
                   }
                   .bottom-bar {
                     position: fixed;
                     bottom: 0;
                     left: 0;
                     width: 100%;
-                    height: 40px;
+                    height: 50px;
                     background: linear-gradient(90deg, #1e3c72, #2a5298);
                     color: white;
                     display: flex;
@@ -146,33 +163,43 @@
                   .hide-btn:hover {
                     background-color: #555;
                   }
+                  .game-info img {
+                    width: 30px;
+                    height: 30px;
+                    margin-right: 8px;
+                    border-radius: 5px;
+                  }
                 </style>
               </head>
               <body>
                 <iframe src="${gameUrl}"></iframe>
                 <div class="bottom-bar" id="bottom-bar">
-                  <div>Cipher Games 🔥</div>
-                  <div class="timer">Time Spent: <span id="timer">00:00</span></div>
+                  <div class="game-info">
+                    <img src="${gameImage}" alt="${gameName} Logo">
+                    <span>${gameName} - Cipher Games 🔥</span>
+                  </div>
+                  <div class="timer">Time Left: <span id="timer">30:00</span></div>
                   <button class="hide-btn" onclick="toggleBar()">Hide</button>
                 </div>
                 <script>
-                  // Retrieve saved time from localStorage or initialize to 0
-                  const savedSeconds = parseInt(localStorage.getItem('${gameName}-time')) || 0;
-                  let seconds = savedSeconds;
+                  let timeLeft = ${timeLeft};
                   const timerDisplay = document.getElementById('timer');
-                  
-                  // Timer to track the time spent on the game
-                  setInterval(() => {
-                    seconds++;
-                    const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
-                    const secs = String(seconds % 60).padStart(2, '0');
-                    timerDisplay.textContent = \`\${mins}:\${secs}\`;
 
-                    // Save the time spent in localStorage every second
-                    localStorage.setItem('${gameName}-time', seconds);
-                  }, 1000);
+                  function updateTimer() {
+                    if (timeLeft > 0) {
+                      timeLeft--;
+                      const mins = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+                      const secs = String(timeLeft % 60).padStart(2, '0');
+                      timerDisplay.textContent = \`\${mins}:\${secs}\`;
+                      localStorage.setItem('${gameKey}', timeLeft);
+                    } else {
+                      alert("Your time for this game is up for today!");
+                      window.close();
+                    }
+                  }
 
-                  // Toggle the visibility of the bottom bar
+                  setInterval(updateTimer, 1000);
+
                   function toggleBar() {
                     const bottomBar = document.getElementById('bottom-bar');
                     bottomBar.style.display = bottomBar.style.display === 'none' ? 'flex' : 'none';
