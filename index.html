@@ -59,56 +59,64 @@
       color: #ddd;
     }
 
-    /* Gem Display */
-    .gem-display {
+    /* Gem Counter */
+    .gem-counter {
       position: absolute;
-      top: 10px;
-      left: 10px;
+      top: 20px;
+      left: 20px;
+      font-size: 24px;
+      color: #333;
       display: flex;
       align-items: center;
-      font-size: 18px;
-      color: #333;
-      background-color: #fff;
-      padding: 5px;
-      border-radius: 5px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     }
 
-    .gem-display img {
-      width: 20px;
-      height: 20px;
-      margin-right: 5px;
+    .gem-counter img {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
     }
 
     /* Developer Menu */
     .dev-menu {
       display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      position: absolute;
+      top: 50px;
+      left: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
       z-index: 1000;
     }
   </style>
 </head>
 <body>
 
-  <!-- Gem Display -->
-  <div class="gem-display">
-    <img src="https://images.vexels.com/media/users/3/151926/isolated/lists/97290467c1dd2771a9de4899ddd0b0a0-precious-gemstone-diamond-flat-icon.png" alt="Gem Icon">
-    <span id="gem-count">0</span>
-  </div>
-
   <!-- Header -->
   <h1>Kami App - Games</h1>
 
+  <!-- Gem Counter -->
+  <div class="gem-counter" id="gem-counter">
+    <img src="https://images.vexels.com/media/users/3/151926/isolated/lists/97290467c1dd2771a9de4899ddd0b0a0-precious-gemstone-diamond-flat-icon.png" alt="Gem Icon">
+    <span id="gem-count">10</span> Gems
+  </div>
+
+  <!-- Developer Menu -->
+  <div class="dev-menu" id="dev-menu">
+    <h3>Developer Menu</h3>
+    <label for="timeInput">Set Time (seconds):</label>
+    <input type="number" id="timeInput" min="0" placeholder="Enter seconds">
+    <button onclick="setTime()">Set Time</button>
+    <br>
+    <label for="gemInput">Add Gems:</label>
+    <input type="number" id="gemInput" min="0" placeholder="Enter gems">
+    <button onclick="addGems()">Add Gems</button>
+    <button onclick="closeDevMenu()">Close</button>
+  </div>
+
   <!-- Games Grid -->
   <div class="games-grid" id="games-grid">
-    <!-- Game Cards Here -->
+    <!-- Minecraft Game Card as an example -->
     <div class="game-card" onclick="openGame('Minecraft', 'https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w', 'https://d1tm91r4ytbt54.cloudfront.net/2779cbcb-a02f-48a3-9e2e-95a8d123d165/1685483461665/web/index.html')">
       <img src="https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w" alt="Minecraft Logo">
       <h3>Minecraft</h3>
@@ -142,94 +150,120 @@
     </div>
   </div>
 
-  <!-- Developer Menu -->
-  <div class="dev-menu" id="dev-menu">
-    <h2>Developer Menu</h2>
-    <p>Debugging options and settings go here.</p>
-    <button onclick="closeDevMenu()">Close Menu</button>
-  </div>
-
   <!-- SweetAlert Script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
   <script>
-    // Initialize Gems
-    const gemCountKey = 'gemCount';
-    if (!localStorage.getItem(gemCountKey)) {
-      localStorage.setItem(gemCountKey, 0);
+    let totalTime = 1800; // total time in seconds
+    let gems = 10; // starting gems
+    let gameTimer;
+    let isGameRunning = false;
+
+    // Function to open a game in a new tab and start the timer
+    function openGame(gameName, gameLogo, gameUrl) {
+      if (isGameRunning) {
+        alert("Please finish the current game before starting a new one.");
+        return;
+      }
+
+      // Open the game URL in a new tab
+      window.open(gameUrl, '_blank');
+
+      // Start the timer
+      startTimer(totalTime);
+      isGameRunning = true;
     }
 
-    // Update Gem Display
-    function updateGemDisplay() {
-      const gemCount = localStorage.getItem(gemCountKey);
-      document.getElementById('gem-count').textContent = gemCount;
-    }
-    updateGemDisplay();
+    // Function to start the timer
+    function startTimer(seconds) {
+      let remainingTime = seconds;
 
-    // Function to Open Game in about:blank
-    function openGame(gameName, gameIcon, gameUrl) {
-      const newTab = window.open('about:blank', '_blank');
-      newTab.document.title = gameName;
-      newTab.document.body.innerHTML = `
-        <style>
-          body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-          }
-          #timer {
-            font-size: 24px;
-            margin-bottom: 20px;
-          }
-        </style>
-        <div id="timer">30:00</div>
-        <iframe src="${gameUrl}" style="border:none; width:100%; height:100%;"></iframe>
-      `;
-
-      startTimer(newTab);
-    }
-
-    // Timer Function
-    function startTimer(tab) {
-      let timeRemaining = 30 * 60; // 30 minutes in seconds
-      const timerDisplay = tab.document.getElementById('timer');
-
-      const interval = setInterval(() => {
-        if (timeRemaining <= 0) {
-          clearInterval(interval);
-          alert('Time is up!');
-          tab.close(); // Close the tab when the timer ends
+      gameTimer = setInterval(() => {
+        if (remainingTime <= 0) {
+          clearInterval(gameTimer);
+          isGameRunning = false;
+          showGameOver();
         } else {
-          timeRemaining--;
-          const minutes = Math.floor(timeRemaining / 60);
-          const seconds = timeRemaining % 60;
-          timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-          localStorage.setItem('timerRemaining', timeRemaining); // Store remaining time
+          remainingTime--;
         }
-      }, 1000);
 
-      // Load remaining time on tab open
-      const savedTime = localStorage.getItem('timerRemaining');
-      if (savedTime) {
-        timeRemaining = parseInt(savedTime);
+        // Update timer display
+        document.title = `Game Time Remaining: ${formatTime(remainingTime)}`;
+      }, 1000);
+    }
+
+    // Format time as mm:ss
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    // Show game over alert
+    function showGameOver() {
+      swal("Game Over!", "Time's up! Would you like to buy extra time for gems?", {
+        buttons: {
+          cancel: "No",
+          confirm: {
+            text: "Yes, buy extra time",
+            value: "confirm",
+          },
+        },
+      }).then((value) => {
+        if (value === "confirm") {
+          buyExtraTime();
+        }
+      });
+    }
+
+    // Function to buy extra time
+    function buyExtraTime() {
+      const extraTime = 300; // 5 minutes in seconds
+      if (gems >= 5) {
+        gems -= 5; // cost of extra time
+        totalTime += extraTime; // add extra time
+        alert("You bought 5 more minutes! Total time: " + formatTime(totalTime));
+      } else {
+        alert("Not enough gems to purchase extra time.");
       }
     }
 
-    // Event Listener for Developer Menu
+    // Set time from developer menu
+    function setTime() {
+      const timeInput = document.getElementById('timeInput').value;
+      if (timeInput >= 0) {
+        totalTime = timeInput;
+        alert("Time has been set to " + formatTime(totalTime));
+      } else {
+        alert("Please enter a valid time.");
+      }
+    }
+
+    // Add gems from developer menu
+    function addGems() {
+      const gemInput = document.getElementById('gemInput').value;
+      if (gemInput > 0) {
+        gems += parseInt(gemInput);
+        document.getElementById('gem-count').textContent = gems;
+        alert(gemInput + " gems have been added!");
+      } else {
+        alert("Please enter a valid number of gems.");
+      }
+    }
+
+    // Open and close developer menu
     document.addEventListener('keydown', (event) => {
-      if (event.key === '`') { // Open the dev menu with backtick key
+      if (event.ctrlKey && event.shiftKey && event.code === 'KeyD') {
         const devMenu = document.getElementById('dev-menu');
-        devMenu.style.display = devMenu.style.display === 'block' ? 'none' : 'block';
+        devMenu.style.display = devMenu.style.display === 'none' ? 'block' : 'none';
       }
     });
 
-    // Close Developer Menu
     function closeDevMenu() {
       document.getElementById('dev-menu').style.display = 'none';
     }
+
+    // Initialize gem counter display
+    document.getElementById('gem-count').textContent = gems;
   </script>
 </body>
 </html>
