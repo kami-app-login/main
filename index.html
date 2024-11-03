@@ -96,6 +96,9 @@
       }
 
       let timeLeft = parseInt(localStorage.getItem(gameKey), 10);
+      if (isNaN(timeLeft) || timeLeft < 0) {
+        timeLeft = 30 * 60; // Set to 30 minutes if time is NaN
+      }
 
       // Prevent game from opening if time is up
       if (timeLeft <= 0) {
@@ -183,7 +186,7 @@
                     <img src="${gameImage}" alt="${gameName} Logo">
                     <span>${gameName} - Cipher Games 🔥</span>
                   </div>
-                  <div class="timer">Time Left: <span id="timer">30:00</span></div>
+                  <div class="timer">Time Left: <span id="timer">${timeRemaining}</span></div>
                   <button class="hide-btn" onclick="toggleBar()">Hide</button>
                 </div>
                 <script>
