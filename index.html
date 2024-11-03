@@ -58,15 +58,57 @@
       font-size: 18px;
       color: #ddd;
     }
+
+    /* Gem Display */
+    .gem-display {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      color: #333;
+      background-color: #fff;
+      padding: 5px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .gem-display img {
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+    }
+
+    /* Developer Menu */
+    .dev-menu {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>
+
+  <!-- Gem Display -->
+  <div class="gem-display">
+    <img src="https://images.vexels.com/media/users/3/151926/isolated/lists/97290467c1dd2771a9de4899ddd0b0a0-precious-gemstone-diamond-flat-icon.png" alt="Gem Icon">
+    <span id="gem-count">0</span>
+  </div>
 
   <!-- Header -->
   <h1>Kami App - Games</h1>
 
   <!-- Games Grid -->
   <div class="games-grid" id="games-grid">
+    <!-- Game Cards Here -->
     <!-- Minecraft Game Card as an example -->
     <div class="game-card" onclick="openGame('Minecraft', 'https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w', 'https://d1tm91r4ytbt54.cloudfront.net/2779cbcb-a02f-48a3-9e2e-95a8d123d165/1685483461665/web/index.html')">
       <img src="https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w" alt="Minecraft Logo">
@@ -80,165 +122,135 @@
       <p>Play Brawl Stars PC Unblocked</p>
     </div>
     <div class="game-card" onclick="openGame('Drive Mad', 'https://play-lh.googleusercontent.com/zGApa4C91zfSXuPMVHvBzzgVLhs_ABHv9fybDQ2m86QmArR3sejpOoRjBMq4ZNZrhg', 'https://ubg77.github.io/game131022/drive-mad/')">
-        <img src="https://play-lh.googleusercontent.com/zGApa4C91zfSXuPMVHvBzzgVLhs_ABHv9fybDQ2m86QmArR3sejpOoRjBMq4ZNZrhg" alt="Drive Mad Logo">
-        <h3>Drive Mad</h3>
-        <p>Play Drive Mad Unblocked</p>
-      </div>
-      <div class="game-card" onclick="openGame('Smash Karts', 'https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/e35c84cf1672e2ee6b17165a5d5cb916.png', 'https://webglmath.github.io/smash-karts/')">
-        <img src="https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/e35c84cf1672e2ee6b17165a5d5cb916.png" alt="Smask Karts logo">
-        <h3>Smash Karts</h3>
-        <p>Play Smash Karts Unblocked</p>
-      </div>
-      <div class="game-card" onclick="openGame('Highway Racer', 'https://gameforge.com/de-DE/littlegames/includes/images/games/8471_5eb3edcc0ba33.jpg', 'https://ubg77.github.io/edit/highway-racer-3d/')">
-        <img src="https://gameforge.com/de-DE/littlegames/includes/images/games/8471_5eb3edcc0ba33.jpg" alt="Highway race 3d logo">
-        <h3>Highway Racer</h3>
-        <p>Play Highway Racer Unblocked</p>
-      </div>
-      <div class="game-card" onclick="openGame('Parkour Race', 'https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/a151c8ec0e7758c6fa0ef06ff540e911.jpeg', 'https://ubg77.github.io/fix/parkour-race/')">
-        <img src="https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/a151c8ec0e7758c6fa0ef06ff540e911.jpeg" alt="Parkour race logo">
-        <h3>Parkour Race</h3>
-        <p>Play Parkour Race Unblocked</p>
-      </div>
+      <img src="https://play-lh.googleusercontent.com/zGApa4C91zfSXuPMVHvBzzgVLhs_ABHv9fybDQ2m86QmArR3sejpOoRjBMq4ZNZrhg" alt="Drive Mad Logo">
+      <h3>Drive Mad</h3>
+      <p>Play Drive Mad Unblocked</p>
+    </div>
+    <div class="game-card" onclick="openGame('Smash Karts', 'https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/e35c84cf1672e2ee6b17165a5d5cb916.png', 'https://webglmath.github.io/smash-karts/')">
+      <img src="https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/e35c84cf1672e2ee6b17165a5d5cb916.png" alt="Smash Karts logo">
+      <h3>Smash Karts</h3>
+      <p>Play Smash Karts Unblocked</p>
+    </div>
+    <div class="game-card" onclick="openGame('Highway Racer', 'https://gameforge.com/de-DE/littlegames/includes/images/games/8471_5eb3edcc0ba33.jpg', 'https://ubg77.github.io/edit/highway-racer-3d/')">
+      <img src="https://gameforge.com/de-DE/littlegames/includes/images/games/8471_5eb3edcc0ba33.jpg" alt="Highway race 3d logo">
+      <h3>Highway Racer</h3>
+      <p>Play Highway Racer Unblocked</p>
+    </div>
+    <div class="game-card" onclick="openGame('Parkour Race', 'https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/a151c8ec0e7758c6fa0ef06ff540e911.jpeg', 'https://ubg77.github.io/fix/parkour-race/')">
+      <img src="https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/a151c8ec0e7758c6fa0ef06ff540e911.jpeg" alt="Parkour race logo">
+      <h3>Parkour Race</h3>
+      <p>Play Parkour Race Unblocked</p>
+    </div>
   </div>
 
   <!-- SweetAlert Script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
   <script>
-    // Function to Open Game
-    function openGame(gameName, gameImage, gameUrl) {
-      const today = new Date().toISOString().split('T')[0];
-      const gameKey = `${gameName}-time`;
-
-      // Reset time if date has changed
-      if (localStorage.getItem("lastPlayDate") !== today) {
-        localStorage.setItem("lastPlayDate", today);
-        localStorage.setItem(gameKey, 30 * 60); // Reset to 30 minutes in seconds
-      }
-
-      let timeLeft = parseInt(localStorage.getItem(gameKey), 10);
-      if (isNaN(timeLeft) || timeLeft < 0) {
-        timeLeft = 30 * 60; // Set to 30 minutes if time is NaN
-      }
-
-      // Prevent game from opening if time is up
-      if (timeLeft <= 0) {
-        swal("Time's Up", `You've used up your 30 minutes for ${gameName} today.`, "warning");
-        return;
-      }
-
-      // Calculate remaining minutes and seconds for display
-      const mins = Math.floor(timeLeft / 60);
-      const secs = timeLeft % 60;
-      const timeRemaining = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-
-      swal({
-        title: `Open ${gameName}`,
-        text: `You have ${timeRemaining} remaining. Do you want to open ${gameName} in a cloaked tab or window?`,
-        buttons: {
-          tab: { text: "Cloaked Tab", value: "tab" },
-          window: { text: "Cloaked Window", value: "window" }
-        }
-      })
-      .then((value) => {
-        if (value === "tab" || value === "window") {
-          const gameWindow = window.open("about:blank", "_blank", value === "window" ? "width=800,height=600" : "");
-
-          // Write the game iframe and control bar HTML to the new tab/window
-          gameWindow.document.write(`
-            <html>
-              <head>
-                <title>${gameName} - Cipher Games 🔥</title>
-                <style>
-                  body, html {
-                    margin: 0;
-                    padding: 0;
-                    overflow: hidden;
-                  }
-                  iframe {
-                    border: none;
-                    width: 100vw;
-                    height: calc(100vh - 50px);
-                  }
-                  .bottom-bar {
-                    position: fixed;
-                    bottom: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 50px;
-                    background: linear-gradient(90deg, #1e3c72, #2a5298);
-                    color: white;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    padding: 0 15px;
-                    font-family: Arial, sans-serif;
-                    font-size: 14px;
-                    font-weight: bold;
-                  }
-                  .timer {
-                    display: flex;
-                    align-items: center;
-                  }
-                  .hide-btn {
-                    background-color: #333;
-                    color: #fff;
-                    padding: 5px 10px;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    transition: background-color 0.2s ease;
-                  }
-                  .hide-btn:hover {
-                    background-color: #555;
-                  }
-                  .game-info img {
-                    width: 30px;
-                    height: 30px;
-                    margin-right: 8px;
-                    border-radius: 5px;
-                  }
-                </style>
-              </head>
-              <body>
-                <iframe src="${gameUrl}"></iframe>
-                <div class="bottom-bar" id="bottom-bar">
-                  <div class="game-info">
-                    <img src="${gameImage}" alt="${gameName} Logo">
-                    <span>${gameName} - Cipher Games 🔥</span>
-                  </div>
-                  <div class="timer">Time Left: <span id="timer">${timeRemaining}</span></div>
-                  <button class="hide-btn" onclick="toggleBar()">Hide</button>
-                </div>
-                <script>
-                  let timeLeft = ${timeLeft};
-                  const timerDisplay = document.getElementById('timer');
-
-                  function updateTimer() {
-                    if (timeLeft > 0) {
-                      timeLeft--;
-                      const mins = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-                      const secs = String(timeLeft % 60).padStart(2, '0');
-                      timerDisplay.textContent = \`\${mins}:\${secs}\`;
-                      localStorage.setItem('${gameKey}', timeLeft);
-                    } else {
-                      alert("Your time for this game is up for today!");
-                      window.close();
-                    }
-                  }
-
-                  setInterval(updateTimer, 1000);
-
-                  function toggleBar() {
-                    const bottomBar = document.getElementById('bottom-bar');
-                    bottomBar.style.display = bottomBar.style.display === 'none' ? 'flex' : 'none';
-                  }
-                <\/script>
-              </body>
-            </html>
-          `);
-        }
-      });
+    // Initialize Gems
+    const gemCountKey = 'gemCount';
+    if (!localStorage.getItem(gemCountKey)) {
+      localStorage.setItem(gemCountKey, 0);
     }
+
+    // Update Gem Display
+    function updateGemDisplay() {
+      const gemCount = localStorage.getItem(gemCountKey);
+      document.getElementById('gem-count').textContent = gemCount;
+    }
+    updateGemDisplay();
+
+    // Function to Open Game
+    function openGame(gameName, gameIcon, gameUrl) {
+      const gameTimeKey = gameName.replace(/\s+/g, '') + 'Time';
+      let gameTime = localStorage.getItem(gameTimeKey) || 30; // Default to 30 minutes
+
+      if (gameTime > 0) {
+        const newTab = window.open(gameUrl, '_blank');
+        newTab.document.title = gameName + ' - Cipher Games 🔥';
+        newTab.onbeforeunload = function () {
+          // Subtract time when game is closed
+          let remainingTime = localStorage.getItem(gameTimeKey);
+          if (remainingTime) {
+            localStorage.setItem(gameTimeKey, remainingTime - 1);
+          }
+        };
+        startTimer(gameName);
+      } else {
+        alert('Time is up for ' + gameName + '. Please purchase more time with gems!');
+      }
+    }
+
+    // Start Timer
+    function startTimer(gameName) {
+      const timerInterval = setInterval(() => {
+        let gameTimeKey = gameName.replace(/\s+/g, '') + 'Time';
+        let timeRemaining = localStorage.getItem(gameTimeKey);
+        
+        if (timeRemaining > 0) {
+          localStorage.setItem(gameTimeKey, timeRemaining - 1);
+        } else {
+          clearInterval(timerInterval);
+          alert('Time is up for ' + gameName);
+        }
+      }, 60000); // Update every minute
+    }
+
+    // Purchase Extra Time
+    function purchaseExtraTime() {
+      const gems = parseInt(localStorage.getItem(gemCountKey));
+      if (gems >= 5) { // Cost for extra time
+        const gameName = prompt("Enter the game name for which you want to purchase extra time:");
+        if (gameName) {
+          let gameTimeKey = gameName.replace(/\s+/g, '') + 'Time';
+          let currentTime = localStorage.getItem(gameTimeKey) || 0;
+          localStorage.setItem(gameTimeKey, parseInt(currentTime) + 5); // Add 5 more minutes
+          localStorage.setItem(gemCountKey, gems - 5); // Deduct gems
+          updateGemDisplay();
+          alert("Purchased 5 extra minutes for " + gameName + "!");
+        }
+      } else {
+        alert("Not enough gems to purchase extra time.");
+      }
+    }
+
+    // Developer Menu
+    function toggleDevMenu() {
+      const devMenu = document.getElementById('dev-menu');
+      devMenu.style.display = devMenu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Key Listener for Developer Menu
+    document.addEventListener('keydown', function(event) {
+      if (event.key === '`') { // Backtick key
+        toggleDevMenu();
+      }
+    });
+
+    // Dev Menu Functionality
+    function addGems(amount) {
+      const currentGems = parseInt(localStorage.getItem(gemCountKey));
+      localStorage.setItem(gemCountKey, currentGems + amount);
+      updateGemDisplay();
+    }
+
+    function resetGameTime() {
+      const gameNames = ['Minecraft', 'Brawl Stars', 'Drive Mad', 'Smash Karts', 'Highway Racer', 'Parkour Race'];
+      gameNames.forEach(name => {
+        localStorage.setItem(name.replace(/\s+/g, '') + 'Time', 30); // Reset to 30 minutes
+      });
+      alert('All game times have been reset to 30 minutes.');
+    }
+
   </script>
+
+  <!-- Developer Menu HTML -->
+  <div class="dev-menu" id="dev-menu">
+    <h3>Developer Menu</h3>
+    <button onclick="addGems(10)">Add 10 Gems</button>
+    <button onclick="resetGameTime()">Reset Game Times</button>
+    <button onclick="purchaseExtraTime()">Purchase Extra Time</button>
+    <button onclick="toggleDevMenu()">Close Menu</button>
+  </div>
+
 </body>
 </html>
