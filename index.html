@@ -23,32 +23,13 @@
       color: #333;
     }
 
-    /* Gems Display */
-    .gems-display {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      display: flex;
-      align-items: center;
-      background-color: #fff;
-      border-radius: 5px;
-      padding: 5px 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .gems-display img {
-      width: 30px;
-      height: 30px;
-      margin-right: 8px;
-    }
-
     /* Game Grid */
     .games-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
       justify-content: center;
-      margin-top: 60px;
+      margin-top: 20px;
     }
 
     /* Game Card */
@@ -81,130 +62,142 @@
 </head>
 <body>
 
-  <!-- Gems Display -->
-  <div class="gems-display" id="gems-display">
-    <img src="https://static.wikia.nocookie.net/super_power_fighting_simulator/images/8/8d/Gem_Icon.png/revision/latest?cb=20201108190731" alt="Gems">
-    <span id="gem-count">0</span>
-  </div>
-
   <!-- Header -->
   <h1>Kami App - Games</h1>
 
   <!-- Games Grid -->
   <div class="games-grid" id="games-grid">
+    <!-- Minecraft Game Card as an example -->
     <div class="game-card" onclick="openGame('Minecraft', 'https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w', 'https://d1tm91r4ytbt54.cloudfront.net/2779cbcb-a02f-48a3-9e2e-95a8d123d165/1685483461665/web/index.html')">
       <img src="https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w" alt="Minecraft Logo">
       <h3>Minecraft</h3>
       <p>Play Minecraft Unblocked</p>
     </div>
+    <!-- Add more game cards here -->
     <div class="game-card" onclick="openGame('Brawl Stars', 'https://cdn2.steamgriddb.com/icon/9af7ea3259a69623a41b6e8bf98a52b4.png', 'https://www.easyfun.gg/games/brawl-stars.html?start=1')">
       <img src="https://cdn2.steamgriddb.com/icon/9af7ea3259a69623a41b6e8bf98a52b4.png" alt="Brawl Stars Logo">
       <h3>Brawl Stars</h3>
       <p>Play Brawl Stars PC Unblocked</p>
     </div>
     <div class="game-card" onclick="openGame('Drive Mad', 'https://play-lh.googleusercontent.com/zGApa4C91zfSXuPMVHvBzzgVLhs_ABHv9fybDQ2m86QmArR3sejpOoRjBMq4ZNZrhg', 'https://ubg77.github.io/game131022/drive-mad/')">
-      <img src="https://play-lh.googleusercontent.com/zGApa4C91zfSXuPMVHvBzzgVLhs_ABHv9fybDQ2m86QmArR3sejpOoRjBMq4ZNZrhg" alt="Drive Mad Logo">
-      <h3>Drive Mad</h3>
-      <p>Play Drive Mad Unblocked</p>
-    </div>
-    <div class="game-card" onclick="openGame('Smash Karts', 'https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/e35c84cf1672e2ee6b17165a5d5cb916.png', 'https://webglmath.github.io/smash-karts/')">
-      <img src="https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/e35c84cf1672e2ee6b17165a5d5cb916.png" alt="Smash Karts logo">
-      <h3>Smash Karts</h3>
-      <p>Play Smash Karts Unblocked</p>
-    </div>
-    <div class="game-card" onclick="openGame('Highway Racer', 'https://gameforge.com/de-DE/littlegames/includes/images/games/8471_5eb3edcc0ba33.jpg', 'https://ubg77.github.io/edit/highway-racer-3d/')">
-      <img src="https://gameforge.com/de-DE/littlegames/includes/images/games/8471_5eb3edcc0ba33.jpg" alt="Highway race 3d logo">
-      <h3>Highway Racer</h3>
-      <p>Play Highway Racer Unblocked</p>
-    </div>
-    <div class="game-card" onclick="openGame('Parkour Race', 'https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/a151c8ec0e7758c6fa0ef06ff540e911.jpeg', 'https://ubg77.github.io/fix/parkour-race/')">
-      <img src="https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/a151c8ec0e7758c6fa0ef06ff540e911.jpeg" alt="Parkour race logo">
-      <h3>Parkour Race</h3>
-      <p>Play Parkour Race Unblocked</p>
-    </div>
-    <div class="game-card" onclick="openGame('Tunnel Rush', 'https://images.hellokids.com/_uploads/_tiny_galerie/20180415/vign-tunnel-rush-hk-w8v_u89.jpg', 'https://webglmath.github.io/tunnel-rush/')">
-      <img src="https://images.hellokids.com/_uploads/_tiny_galerie/20180415/vign-tunnel-rush-hk-w8v_u89.jpg" alt="Tunnel Rush logo">
-      <h3>Tunnel Rush</h3>
-      <p>Play Tunnel Rush Unblocked</p>
-    </div>
+        <img src="https://play-lh.googleusercontent.com/zGApa4C91zfSXuPMVHvBzzgVLhs_ABHv9fybDQ2m86QmArR3sejpOoRjBMq4ZNZrhg" alt="Drive Mad Logo">
+        <h3>Drive Mad</h3>
+        <p>Play Drive Mad Unblocked</p>
+      </div>
+      <div class="game-card" onclick="openGame('Smash Karts', 'https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/e35c84cf1672e2ee6b17165a5d5cb916.png', 'https://webglmath.github.io/smash-karts/')">
+        <img src="https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/e35c84cf1672e2ee6b17165a5d5cb916.png" alt="Smash Karts logo">
+        <h3>Smash Karts</h3>
+        <p>Play Smash Karts Unblocked</p>
+      </div>
+      <div class="game-card" onclick="openGame('Highway Racer', 'https://gameforge.com/de-DE/littlegames/includes/images/games/8471_5eb3edcc0ba33.jpg', 'https://ubg77.github.io/edit/highway-racer-3d/')">
+        <img src="https://gameforge.com/de-DE/littlegames/includes/images/games/8471_5eb3edcc0ba33.jpg" alt="Highway Racer logo">
+        <h3>Highway Racer</h3>
+        <p>Play Highway Racer Unblocked</p>
+      </div>
+      <div class="game-card" onclick="openGame('Parkour Race', 'https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/a151c8ec0e7758c6fa0ef06ff540e911.jpeg', 'https://ubg77.github.io/fix/parkour-race/')">
+        <img src="https://img.poki-cdn.com/cdn-cgi/image/quality=78,width=314,height=314,fit=cover,f=auto/a151c8ec0e7758c6fa0ef06ff540e911.jpeg" alt="Parkour Race logo">
+        <h3>Parkour Race</h3>
+        <p>Play Parkour Race Unblocked</p>
+      </div>
+      <div class="game-card" onclick="openGame('Tunnel Rush', 'https://images.hellokids.com/_uploads/_tiny_galerie/20180415/vign-tunnel-rush-hk-w8v_u89.jpg', 'https://webglmath.github.io/tunnel-rush/')">
+        <img src="https://images.hellokids.com/_uploads/_tiny_galerie/20180415/vign-tunnel-rush-hk-w8v_u89.jpg" alt="Tunnel Rush logo">
+        <h3>Tunnel Rush</h3>
+        <p>Play Tunnel Rush Unblocked</p>
+      </div>
   </div>
 
   <!-- SweetAlert Script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
   <script>
-    // Initialize gems
-    if (!localStorage.getItem('gems')) {
-      localStorage.setItem('gems', 0);
-    }
-
-    // Function to update gems display
-    function updateGemsDisplay() {
-      const gemCount = localStorage.getItem('gems');
-      document.getElementById('gem-count').innerText = gemCount;
-    }
-
     // Function to Open Game
     function openGame(gameName, gameImage, gameUrl) {
       const today = new Date().toISOString().split('T')[0];
       const gameKey = `${gameName}-time`;
 
       // Reset time if date has changed
-      if (localStorage.getItem(`${gameKey}-date`) !== today) {
-        localStorage.setItem(gameKey, 1800); // 30 minutes in seconds
-        localStorage.setItem(`${gameKey}-date`, today);
+      if (localStorage.getItem("lastPlayDate") !== today) {
+        localStorage.setItem("lastPlayDate", today);
+        localStorage.setItem(gameKey, 30 * 60); // Reset to 30 minutes in seconds
       }
 
-      let remainingTime = localStorage.getItem(gameKey);
-
-      // Check if the time is up
-      if (remainingTime <= 0) {
-        const gems = parseInt(localStorage.getItem('gems'), 10);
-        if (gems >= 10) {
-          swal({
-            title: "Time's Up!",
-            text: "You can purchase 30 extra minutes for 10 gems.",
-            buttons: {
-              cancel: "Cancel",
-              buy: {
-                text: "Purchase",
-                value: "purchase",
-              },
-            },
-          }).then((value) => {
-            if (value === "purchase") {
-              localStorage.setItem('gems', gems - 10); // Deduct gems
-              localStorage.setItem(gameKey, 1800); // Add 30 minutes
-              updateGemsDisplay(); // Update display
-              window.open(gameUrl); // Open game URL
-              startTimer(gameKey);
-            }
-          });
-        } else {
-          alert("You do not have enough gems to purchase more time.");
-          return;
-        }
-      } else {
-        // If there's time left, open the game
-        localStorage.setItem(gameKey, remainingTime - 1); // Decrement time
-        updateGemsDisplay(); // Update gems display
-        window.open(gameUrl); // Open game URL
-        startTimer(gameKey);
+      let timeLeft = parseInt(localStorage.getItem(gameKey), 10);
+      if (isNaN(timeLeft) || timeLeft < 0) {
+        timeLeft = 30 * 60; // Set to 30 minutes if time is NaN
       }
-    }
 
-    // Timer function
-    function startTimer(gameKey) {
-      setInterval(() => {
-        let remainingTime = localStorage.getItem(gameKey);
-        if (remainingTime > 0) {
-          remainingTime--;
-          localStorage.setItem(gameKey, remainingTime);
+      // Prevent game from opening if time is up
+      if (timeLeft <= 0) {
+        swal("Time's Up", `You've used up your 30 minutes for ${gameName} today.`, "warning");
+        return;
+      }
+
+      // Calculate remaining minutes and seconds for display
+      const mins = Math.floor(timeLeft / 60);
+      const secs = timeLeft % 60;
+      const timeRemaining = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+      swal({
+        title: `Open ${gameName}`,
+        text: `You have ${timeRemaining} remaining. Do you want to open ${gameName} in a cloaked tab or window?`,
+        buttons: {
+          tab: { text: "Cloaked Tab", value: "tab" },
+          window: { text: "Cloaked Window", value: "window" },
+          cancel: "Cancel"
+        },
+      }).then((value) => {
+        if (value) {
+          if (value === "tab") {
+            window.open(gameUrl, "_blank");
+          } else if (value === "window") {
+            window.open(gameUrl, "_blank", "width=800,height=600");
+          }
+          // Reduce time left
+          localStorage.setItem(gameKey, timeLeft - 1); // Decrease time left by 1 minute
         }
-      }, 1000);
+      });
     }
 
-    // Initial display update
-    updateGemsDisplay();
+    // Developer Menu Function
+    function showDeveloperMenu() {
+      swal({
+        title: "Developer Menu",
+        content: {
+          element: "input",
+          attributes: {
+            placeholder: "Enter extra time in minutes",
+            type: "number"
+          },
+        },
+        buttons: {
+          cancel: "Cancel",
+          confirm: "Add Time",
+        },
+      }).then((value) => {
+        if (value) {
+          const extraTime = parseInt(value, 10);
+          if (!isNaN(extraTime)) {
+            // Loop through all game cards and add extra time
+            const gameCards = document.querySelectorAll('.game-card');
+            gameCards.forEach(card => {
+              const gameName = card.querySelector('h3').innerText;
+              const gameKey = `${gameName}-time`;
+              let currentTime = parseInt(localStorage.getItem(gameKey), 10) || 0;
+              localStorage.setItem(gameKey, currentTime + extraTime * 60);
+            });
+            swal("Success!", `Added ${extraTime} minutes to each game.`, "success");
+          } else {
+            swal("Error!", "Please enter a valid number.", "error");
+          }
+        }
+      });
+    }
+
+    // Event Listener for Backtick Key
+    document.addEventListener('keydown', (event) => {
+      if (event.key === '`') {
+        showDeveloperMenu();
+      }
+    });
   </script>
 </body>
 </html>
